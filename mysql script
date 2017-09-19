@@ -1,1 +1,123 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     9/19/2017 5:41:08 AM                         */
+/*==============================================================*/
+
+
+drop table if exists EVENT;
+
+drop table if exists MEMILIKI;
+
+drop table if exists PLACE;
+
+drop table if exists RELASI_JARAK;
+
+drop table if exists RELATIONSHIP_4;
+
+drop table if exists TRANSPORTATIONMODE;
+
+drop table if exists TRAVELLER;
+
+/*==============================================================*/
+/* Table: EVENT                                                 */
+/*==============================================================*/
+create table EVENT
+(
+   ID_EVENT             bigint not null,
+   ID_PLACE             int,
+   EVENTNAME            varchar(35),
+   ARRIVALTIME          datetime,
+   DEPATURETIME         datetime,
+   REMINDEROPTION       smallint,
+   NOTE                 text,
+   primary key (ID_EVENT)
+);
+
+/*==============================================================*/
+/* Table: MEMILIKI                                              */
+/*==============================================================*/
+create table MEMILIKI
+(
+   ID_TRAVELLER         bigint not null,
+   ID_TRSMODE           smallint not null,
+   primary key (ID_TRAVELLER, ID_TRSMODE)
+);
+
+/*==============================================================*/
+/* Table: PLACE                                                 */
+/*==============================================================*/
+create table PLACE
+(
+   ID_PLACE             int not null,
+   NM_PLACE             varchar(25),
+   primary key (ID_PLACE)
+);
+
+/*==============================================================*/
+/* Table: RELASI_JARAK                                          */
+/*==============================================================*/
+create table RELASI_JARAK
+(
+   PLA_ID_PLACE         int not null,
+   ID_PLACE             int not null,
+   ID_JARAK             char(10) not null,
+   JARAK                int,
+   primary key (PLA_ID_PLACE, ID_PLACE, ID_JARAK)
+);
+
+/*==============================================================*/
+/* Table: RELATIONSHIP_4                                        */
+/*==============================================================*/
+create table RELATIONSHIP_4
+(
+   ID_TRAVELLER         bigint not null,
+   ID_EVENT             bigint not null,
+   ISCONFIRM            bool,
+   primary key (ID_TRAVELLER, ID_EVENT)
+);
+
+/*==============================================================*/
+/* Table: TRANSPORTATIONMODE                                    */
+/*==============================================================*/
+create table TRANSPORTATIONMODE
+(
+   ID_TRSMODE           smallint not null,
+   NMTRANSPORTATION     varchar(30),
+   primary key (ID_TRSMODE)
+);
+
+/*==============================================================*/
+/* Table: TRAVELLER                                             */
+/*==============================================================*/
+create table TRAVELLER
+(
+   ID_TRAVELLER         bigint not null,
+   USERNAME             varchar(30),
+   EMAIL                varchar(40),
+   PASSWORD             varchar(255),
+   FULLNAME             varchar(50),
+   primary key (ID_TRAVELLER)
+);
+
+alter table EVENT add constraint FK_RELATIONSHIP_8 foreign key (ID_PLACE)
+      references PLACE (ID_PLACE) on delete restrict on update restrict;
+
+alter table MEMILIKI add constraint FK_MEMILIKI foreign key (ID_TRAVELLER)
+      references TRAVELLER (ID_TRAVELLER) on delete restrict on update restrict;
+
+alter table MEMILIKI add constraint FK_MEMILIKI2 foreign key (ID_TRSMODE)
+      references TRANSPORTATIONMODE (ID_TRSMODE) on delete restrict on update restrict;
+
+alter table RELASI_JARAK add constraint FK_RELATIONSHIP_5 foreign key (PLA_ID_PLACE)
+      references PLACE (ID_PLACE) on delete restrict on update restrict;
+
+alter table RELASI_JARAK add constraint FK_RELATIONSHIP_6 foreign key (ID_PLACE)
+      references PLACE (ID_PLACE) on delete restrict on update restrict;
+
+alter table RELATIONSHIP_4 add constraint FK_RELATIONSHIP_10 foreign key (ID_EVENT)
+      references EVENT (ID_EVENT) on delete restrict on update restrict;
+
+alter table RELATIONSHIP_4 add constraint FK_RELATIONSHIP_7 foreign key (ID_TRAVELLER)
+      references TRAVELLER (ID_TRAVELLER) on delete restrict on update restrict;
+
 
