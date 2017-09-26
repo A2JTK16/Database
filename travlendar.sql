@@ -1,53 +1,54 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     9/24/2017 9:09:19 PM                         */
+/* Created on:     26/09/2017 07:30:06                          */
 /*==============================================================*/
 
+
+drop table if exists DISTANCEMATRIX;
 
 drop table if exists EVENT;
 
 drop table if exists LOCATION;
 
-drop table if exists RELATIONSHIP_4;
-
 drop table if exists TRAVELLER;
+
+/*==============================================================*/
+/* Table: DISTANCEMATRIX                                        */
+/*==============================================================*/
+create table DISTANCEMATRIX
+(
+   LOC_KODE_LOKASI      int not null,
+   KODE_LOKASI          int not null,
+   JARAK                float,
+   primary key (LOC_KODE_LOKASI, KODE_LOKASI)
+);
 
 /*==============================================================*/
 /* Table: EVENT                                                 */
 /*==============================================================*/
 create table EVENT
 (
+   KODE_LOKASI          int not null,
    ID_EVENT             bigint not null,
-   ID_PLACE             int not null,
-   ID_TRAVELLER         bigint,
-   EVENTNAME            varchar(35),
+   ID_TRAVELLER         bigint not null,
+   NAMA_EVENT           varchar(35),
    ARRIVALTIME          datetime,
    DEPATURETIME         datetime,
-   primary key (ID_EVENT)
-);
+   KDTRANSPORTATIONMODE smallint,
+   primary key (ID_TRAVELLER, KODE_LOKASI, ID_EVENT)
+)
+auto_increment = ID_EVENT;
 
 /*==============================================================*/
 /* Table: LOCATION                                              */
 /*==============================================================*/
 create table LOCATION
 (
-   ID_PLACE             int not null,
-   ID_EVENT             bigint,
-   ID_TRAVELLER         bigint,
-   NM_PLACE             varchar(20),
-   primary key (ID_PLACE)
-);
-
-/*==============================================================*/
-/* Table: RELATIONSHIP_4                                        */
-/*==============================================================*/
-create table RELATIONSHIP_4
-(
-   ID_PLACE             int not null,
-   LOC_ID_PLACE         int not null,
-   DISTANCE             float,
-   primary key (ID_PLACE, LOC_ID_PLACE)
-);
+   KODE_LOKASI          int not null,
+   NAMA_LOKASI          varchar(25),
+   primary key (KODE_LOKASI)
+)
+auto_increment = KODE_LOKASI;
 
 /*==============================================================*/
 /* Table: TRAVELLER                                             */
@@ -55,32 +56,27 @@ create table RELATIONSHIP_4
 create table TRAVELLER
 (
    ID_TRAVELLER         bigint not null,
-   ID_PLACE             int not null,
-   USERNAME             varchar(20),
+   KODE_LOKASI          int,
+   USERNAME             varchar(30),
    EMAIL                varchar(40),
-   PASSWORD             varchar(25),
-   FULLNAME             varchar(30),
+   PASSWORD             varchar(255),
+   FULLNAME             varchar(50),
    primary key (ID_TRAVELLER)
-);
+)
+auto_increment = ID_TRAVELLER;
+
+alter table DISTANCEMATRIX add constraint FK_RELATIONSHIP_5 foreign key (LOC_KODE_LOKASI)
+      references LOCATION (KODE_LOKASI) on delete restrict on update restrict;
+
+alter table DISTANCEMATRIX add constraint FK_RELATIONSHIP_6 foreign key (KODE_LOKASI)
+      references LOCATION (KODE_LOKASI) on delete restrict on update restrict;
 
 alter table EVENT add constraint FK_RELATIONSHIP_7 foreign key (ID_TRAVELLER)
       references TRAVELLER (ID_TRAVELLER) on delete restrict on update restrict;
 
-alter table EVENT add constraint FK_RELATIONSHIP_8 foreign key (ID_PLACE)
-      references LOCATION (ID_PLACE) on delete restrict on update restrict;
+alter table EVENT add constraint FK_RELATIONSHIP_8 foreign key (KODE_LOKASI)
+      references LOCATION (KODE_LOKASI) on delete restrict on update restrict;
 
-alter table LOCATION add constraint FK_ALAMAT_RUMAH foreign key (ID_TRAVELLER)
-      references TRAVELLER (ID_TRAVELLER) on delete restrict on update restrict;
-
-alter table LOCATION add constraint FK_RELATIONSHIP_9 foreign key (ID_EVENT)
-      references EVENT (ID_EVENT) on delete restrict on update restrict;
-
-alter table RELATIONSHIP_4 add constraint FK_RELATIONSHIP_5 foreign key (ID_PLACE)
-      references LOCATION (ID_PLACE) on delete restrict on update restrict;
-
-alter table RELATIONSHIP_4 add constraint FK_RELATIONSHIP_6 foreign key (LOC_ID_PLACE)
-      references LOCATION (ID_PLACE) on delete restrict on update restrict;
-
-alter table TRAVELLER add constraint FK_ALAMAT_RUMAH2 foreign key (ID_PLACE)
-      references LOCATION (ID_PLACE) on delete restrict on update restrict;
+alter table TRAVELLER add constraint FK_ALAMAT_RUMAH foreign key (KODE_LOKASI)
+      references LOCATION (KODE_LOKASI) on delete restrict on update restrict;
 
