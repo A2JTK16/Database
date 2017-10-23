@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     10/16/2017 9:08:02 PM                        */
+/* Created on:     10/23/2017 7:43:18 PM                        */
 /*==============================================================*/
 
 
@@ -25,7 +25,7 @@ drop table if exists TRAVELLER;
 /*==============================================================*/
 create table CITY
 (
-   CITY_CODE            char(4) not null,
+   CITY_CODE            char(2) not null,
    PROVINCE_CODE        char(2) not null,
    CITY_NAME            varchar(50),
    primary key (CITY_CODE)
@@ -36,10 +36,10 @@ create table CITY
 /*==============================================================*/
 create table DISTANCE
 (
-   START_LOCATION_ID    int not null,
-   END_LOCATION_ID      int not null,
+   LOCATION_ID          int not null,
+   LOC_LOCATION_ID      int not null,
    DISTANCE             float,
-   primary key (START_LOCATION_ID, END_LOCATION_ID)
+   primary key (LOCATION_ID, LOC_LOCATION_ID)
 );
 
 /*==============================================================*/
@@ -47,15 +47,15 @@ create table DISTANCE
 /*==============================================================*/
 create table EVENT
 (
-   LOCATION_ID          int not null,
    EVENT_ID             bigint not null,
+   LOCATION_ID          int not null,
    TRAVELLER_ID         bigint not null,
    EVENT_NAME           varchar(35) not null,
    START_EVENT          datetime not null,
    END_EVENT            datetime not null,
    NOTE                 text,
    PLACE                varchar(25),
-   primary key (LOCATION_ID, EVENT_ID)
+   primary key (EVENT_ID)
 );
 
 /*==============================================================*/
@@ -63,7 +63,7 @@ create table EVENT
 /*==============================================================*/
 create table LOCATION
 (
-   LOCATION_ID          int not null auto_increment,
+   LOCATION_ID          int not null,
    CITY_CODE            char(2) not null,
    ADDRESS_PLACE        varchar(55),
    primary key (LOCATION_ID)
@@ -95,11 +95,10 @@ create table TRANSPORTATION_MODE
 /*==============================================================*/
 create table TRAVEL
 (
-   LOCATION_ID          int not null,
    EVENT_ID             bigint not null,
    TRANSPORTATION_CODE  char(2) not null,
    DEPATURE_TIME        datetime,
-   primary key (LOCATION_ID, EVENT_ID)
+   primary key (EVENT_ID)
 );
 
 /*==============================================================*/
@@ -107,7 +106,7 @@ create table TRAVEL
 /*==============================================================*/
 create table TRAVELLER
 (
-   TRAVELLER_ID         bigint not null auto_increment,
+   TRAVELLER_ID         bigint not null,
    TRAVELLER_NAME       varchar(20),
    TRAVELLER_EMAIL      varchar(40),
    TRAVELLER_PASSWORD   varchar(25),
@@ -118,10 +117,10 @@ create table TRAVELLER
 alter table CITY add constraint FK_HAS_CITY_PROV foreign key (PROVINCE_CODE)
       references PROVINCE (PROVINCE_CODE) on delete restrict on update restrict;
 
-alter table DISTANCE add constraint FK_END_LOCATION foreign key (END_LOCATION_ID)
+alter table DISTANCE add constraint FK_END_LOCATION foreign key (LOC_LOCATION_ID)
       references LOCATION (LOCATION_ID) on delete restrict on update restrict;
 
-alter table DISTANCE add constraint FK_START_LOCATION foreign key (START_LOCATION_ID)
+alter table DISTANCE add constraint FK_START_LOCATION foreign key (LOCATION_ID)
       references LOCATION (LOCATION_ID) on delete restrict on update restrict;
 
 alter table EVENT add constraint FK_CREATE foreign key (TRAVELLER_ID)
@@ -133,14 +132,14 @@ alter table EVENT add constraint FK_LOCATED foreign key (LOCATION_ID)
 alter table LOCATION add constraint FK_HAS_CITY_LOC foreign key (CITY_CODE)
       references CITY (CITY_CODE) on delete restrict on update restrict;
 
-alter table TRAVEL add constraint FK_MEMILIKI_PE_AG foreign key (LOCATION_ID, EVENT_ID)
-      references EVENT (LOCATION_ID, EVENT_ID) on delete restrict on update restrict;
+alter table TRAVEL add constraint FK_MEMILIKI_PE_AG foreign key (EVENT_ID)
+      references EVENT (EVENT_ID) on delete restrict on update restrict;
 
 alter table TRAVEL add constraint FK_NEED foreign key (TRANSPORTATION_CODE)
       references TRANSPORTATION_MODE (TRANSPORTATION_CODE) on delete restrict on update restrict;
 
 INSERT INTO `province` VALUES ('11', 'ACEH');
-INSERT INTO `province` VALUES ('12', 'SUMATERA UTARA');
+INSERT INTOi`province` VALUES ('12', 'SUMATERA UTARA');
 INSERT INTO `province` VALUES ('13', 'SUMATERA BARAT');
 INSERT INTO `province` VALUES ('14', 'RIAU');
 INSERT INTO `province` VALUES ('15', 'JAMBI');
