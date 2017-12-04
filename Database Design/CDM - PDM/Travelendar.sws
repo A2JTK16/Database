@@ -4,9 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model ID="{945396AE-768D-450A-BBD6-033340210176}" Loaded="No" Name="Travlendar_C" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="Travlendar_C.cdm"/>
-		<Model Expanded="Yes" ID="{32C15B23-5149-4390-B03D-4200E59579A9}" Loaded="No" Name="Travlendar_P" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="Travlendar_P.pdm"/>
-		<Model Expanded="Yes" ID="{945396AE-768D-450A-BBD6-033340210176}" Name="Travlendar" Selected="Yes" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="../Backup v3/Travlendar_C.cdm"/>
+		<Model ID="{945396AE-768D-450A-BBD6-033340210176}" Name="Travlendar_C" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="Travlendar_C.cdm"/>
+		<Model Expanded="Yes" ID="{32C15B23-5149-4390-B03D-4200E59579A9}" Name="Travlendar_P" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="Travlendar_P.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
