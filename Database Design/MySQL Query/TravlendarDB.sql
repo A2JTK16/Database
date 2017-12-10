@@ -130,7 +130,7 @@ DELIMITER //
    END //
 DELIMITER ;
 
-/*
+
 create view faiz
 Create or replace view view_event as
 SELECT DISTINCT
@@ -150,7 +150,7 @@ SELECT DISTINCT
       L1.location_id = E.Start_Location_id 
 	  and
 	  L2.location_id = E.End_Location_Id;
-     */
+     
 /*
 
 CREATE VIEW VEVENT AS
