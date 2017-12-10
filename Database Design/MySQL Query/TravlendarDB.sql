@@ -131,7 +131,7 @@ DELIMITER //
 DELIMITER ;
 
 
-create view faiz
+/*create view faiz*/
 Create or replace view view_event as
 SELECT DISTINCT
       Tl.traveller_username AS Username, Tl.traveller_fullname AS Fullname,  Tl.traveller_address AS Home_Address,
