@@ -18,14 +18,14 @@ drop table if exists TRAVELLER;
 create table EVENT
 (
    traveller_username   varchar(30) not null,
-   location_id          int not null,
-   loc_location_id      int not null,
+   start_location_id          int not null,
+   end_location_id      int not null,
    event_id             bigint not null auto_increment,
    event_name           varchar(35) not null,
    start_event          datetime not null,
    end_event            datetime not null,
    note                 text,
-   primary key (traveller_username, location_id, loc_location_id, event_id)
+   primary key (traveller_username, start_location_id, end_location_id, event_id)
 )ENGINE=MyISAM;
 
 /*==============================================================*/
@@ -46,12 +46,12 @@ create table LOCATION
 create table TRAVEL
 (
    traveller_username   varchar(30) not null,
-   location_id          int not null,
-   loc_location_id      int not null,
+   start_location_id          int not null,
+   end_location_id      int not null,
    event_id             bigint not null,
    depature_time        datetime not null,
    transportation_mode  enum('walking', 'driving', 'bicycling', 'transit') not null,
-   primary key (traveller_username, location_id, loc_location_id, event_id)
+   primary key (traveller_username, start_location_id, end_location_id, event_id)
 )ENGINE=MyISAM;
 
 /*==============================================================*/
@@ -70,12 +70,12 @@ create table TRAVELLER
 alter table EVENT add constraint FK_CREATE foreign key (traveller_username)
       references TRAVELLER (traveller_username) on delete restrict on update restrict;
 
-alter table EVENT add constraint FK_LOCATED foreign key (location_id)
+alter table EVENT add constraint FK_LOCATED foreign key (start_location_id)
       references LOCATION (location_id) on delete restrict on update restrict;
 
-alter table EVENT add constraint FK_RELATIONSHIP_4 foreign key (loc_location_id)
+alter table EVENT add constraint FK_RELATIONSHIP_4 foreign key (end_location_id)
       references LOCATION (location_id) on delete restrict on update restrict;
 
-alter table TRAVEL add constraint FK_MEMILIKI_PE_AG foreign key (traveller_username, location_id, loc_location_id, event_id)
-      references EVENT (traveller_username, location_id, loc_location_id, event_id) on delete restrict on update restrict;
+alter table TRAVEL add constraint FK_MEMILIKI_PE_AG foreign key (traveller_username, start_location_id, end_location_id, event_id)
+      references EVENT (traveller_username, start_location_id, end_location_id, event_id) on delete restrict on update restrict;
 
